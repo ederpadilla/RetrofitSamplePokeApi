@@ -6,7 +6,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String API_BASE_URL = "http://pokeapi.co/api/v2/";
+    public static final String API_BASE_URL = "https://www.googleapis.com/youtube/v3/";
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(logging);

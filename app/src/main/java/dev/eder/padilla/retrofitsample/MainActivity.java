@@ -2,6 +2,7 @@ package dev.eder.padilla.retrofitsample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import dev.eder.padilla.retrofitsample.model.Pokemon;
+import dev.eder.padilla.retrofitsample.model.PreviewResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,6 +39,25 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     editText.setError("Campo vacio!!");
                 }
+            }
+        });
+        checkTonyBeth();
+    }
+
+    private void checkTonyBeth() {
+        PokeApi pokemonClient = ServiceGenerator.createService(PokeApi.class);
+
+        pokemonClient.getYoutubeDats("statistics,snippet","tonnybeth","AIzaSyDXzxlI-JKh04ZGfsTB5jp9Y3V7YPiXXlU").enqueue(new Callback<PreviewResponse>() {
+            @Override
+            public void onResponse(Call<PreviewResponse> call, Response<PreviewResponse> response) {
+                PreviewResponse previewResponse = response.body();
+                Log.e("MainActivity","Estadisticas "+previewResponse.getItems().get(0).getStatistics());
+
+            }
+
+            @Override
+            public void onFailure(Call<PreviewResponse> call, Throwable t) {
+
             }
         });
     }
@@ -81,4 +102,5 @@ public class MainActivity extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
+
 }
