@@ -13,5 +13,7 @@ public interface PokeApi {
     Call<Pokemon> getPokemonDats(@Path("id")int id);
 
     @GET("channels")
-    Call<PreviewResponse> getYoutubeDats(@Query("part") String type, @Query("forUsername") String userName, @Query("key") String key);
+    Call<PreviewResponse> getYoutubeDats(@Query("part") String type,
+                                         @Query("forUsername") String userName,
+                                         @Query("key") String key);
 }

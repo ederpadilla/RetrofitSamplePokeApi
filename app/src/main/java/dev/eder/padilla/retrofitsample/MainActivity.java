@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import dev.eder.padilla.retrofitsample.model.Pokemon;
 import dev.eder.padilla.retrofitsample.model.PreviewResponse;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     Button button;
     TextView textView;
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         button = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
+        imageView = findViewById(R.id.image);
         button.setText("Obtener Pokemon "+getEmojiByUnicode(0x1F648));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,11 +52,16 @@ public class MainActivity extends AppCompatActivity {
     private void checkTonyBeth() {
         PokeApi pokemonClient = ServiceGenerator.createService(PokeApi.class);
 
-        pokemonClient.getYoutubeDats("statistics,snippet","tonnybeth","AIzaSyDXzxlI-JKh04ZGfsTB5jp9Y3V7YPiXXlU").enqueue(new Callback<PreviewResponse>() {
+        pokemonClient.getYoutubeDats("statistics,snippet","tonnybeth",
+                "AIzaSyDXzxlI-JKh04ZGfsTB5jp9Y3V7YPiXXlU")
+                .enqueue(new Callback<PreviewResponse>() {
             @Override
-            public void onResponse(Call<PreviewResponse> call, Response<PreviewResponse> response) {
+            public void onResponse(Call<PreviewResponse> call,
+                                   Response<PreviewResponse> response){
                 PreviewResponse previewResponse = response.body();
                 Log.e("MainActivity","Estadisticas "+previewResponse.getItems().get(0).getStatistics());
+                previewResponse.getItems().get(0).getSnippet().getThumbnails().getHigh().getUrl();
+                Glide.with(getApplicationContext()).load(previewResponse.getItems().get(0).getSnippet().getThumbnails().getHigh().getUrl()).into(imageView);
 
             }
 
@@ -59,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<PreviewResponse> call, Throwable t) {
 
             }
-        });
+        });//estoy bien gordito
     }
 
     private void sendWebPetition() {
